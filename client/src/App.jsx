@@ -6,7 +6,6 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import GameList from "./components/game-list/GameList";
 import GameCreate from "./components/game-create/GameCreate";
-import GameEdit from "./components/game-edit/GameEdit";
 
 function App() {
   return (
