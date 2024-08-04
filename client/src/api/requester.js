@@ -1,4 +1,4 @@
-export default async function requester(method, url, data) {
+export async function requester(method, url, data) {
     const options = {};
 
     if (method != 'GET') {
@@ -12,10 +12,17 @@ export default async function requester(method, url, data) {
 
         options.body = JSON.stringify(data);
     }
-    const response = await fetch(url, options);
-    const result = await response.json();
 
-    return result;
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        if (!response.ok) {
+            throw result;
+        }
+        return result;
+    } catch (error) {
+        console.error(error.message);
+    }
 
 };
 
@@ -28,3 +35,10 @@ export const get = (url, data) => requester('GET', url, data);
 export const post = (url, data) => requester('POST', url, data);
 export const put = (url, data) => requester('PUT', url, data);
 export const del = (url, data) => requester('DELETE', url, data);
+
+export default {
+    get,
+    post,
+    put,
+    del
+};

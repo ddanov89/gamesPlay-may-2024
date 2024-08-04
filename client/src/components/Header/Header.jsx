@@ -1,23 +1,40 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
+import withAuth from "../HOC/withAuth";
 
-export default function Header() {
- return (
+function Header({
+  auth,
+}) {
+  // const { isAuthenticated, email } = useContext(AuthContext);
+
+  const {isAuthenticated} = auth; //replacement for authContext;
+  
+  return (
     <header>
-    {/* <!-- Navigation --> */}
-    <h1><Link className="home" to="/">GamesPlay</Link></h1>
-    <nav>
+      <h1>
+        <Link className="home" to="/">
+          GamesPlay
+        </Link>
+      </h1>
+      <nav>
         <Link to="/games">All games</Link>
-        {/* {/* <!-- Logged-in users --> */} 
-        <div id="user">
+        {isAuthenticated ? (
+          <div id="user">
             <Link to="/games/create">Create Game</Link>
             <Link to="/logout">Logout</Link>
-        </div>
-        {/* {/* <!-- Guest users --> */}
-        <div id="guest">
+          </div>
+        ) : (
+          <div id="guest">
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>
-        </div>
-    </nav>
-</header>
- );
+          </div>
+        )}
+      </nav>
+    </header>
+  );
 }
+
+const EnhancedHeader = withAuth(Header);
+
+export default EnhancedHeader;
